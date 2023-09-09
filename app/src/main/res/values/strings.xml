@@ -11,4 +11,5 @@
     <string name="recipesMenu">Recipes</string>
     <string name="favoritesMenu">Favorites</string>
     <string name="informationMenu">Information</string>
+    <string name="noSignalText">It appears that you\'re offline.</string>
 </resources>
