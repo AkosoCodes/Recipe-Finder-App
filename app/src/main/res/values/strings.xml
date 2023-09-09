@@ -1,7 +1,14 @@
 <resources>
-    <string name="app_name">foodApp</string>
+    <string name="app_name">Food App</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="favorites_fragment">Favorites</string>
-    <string name="recipes_fragment">Recipes</string>
-    <string name="favorites">Favorites</string>
+
+    <!-- Navigation -->
+    <string name="recipesFragment">This is the recipes fragment</string>
+    <string name="favoritesFragment">This is the favorites fragment</string>
+    <string name="infoFragment">Information fragment!</string>
+
+    <!-- Bottom Navigation -->
+    <string name="recipesMenu">Recipes</string>
+    <string name="favoritesMenu">Favorites</string>
+    <string name="informationMenu">Information</string>
 </resources>
