@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.foodapp.R
+import com.example.foodapp.utils.HelperFunctions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class Information : Fragment() {
@@ -16,36 +17,33 @@ class Information : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_information, container, false)
+        val helperFunctions = HelperFunctions(container!!.context)
 
         val githubFab: FloatingActionButton = view.findViewById(R.id.github_FloatingActionButton)
         val linkedinFab: FloatingActionButton = view.findViewById(R.id.linkedin_FloatingActionButton)
         val instagramFab: FloatingActionButton = view.findViewById(R.id.instagram_FloatingActionButton)
-
+        val apiFab: FloatingActionButton = view.findViewById(R.id.api_FloatingActionButton)
 
         githubFab.setOnClickListener {
-            val githubUrl = R.string.GITHUB_URL.toString()
-
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(githubUrl))
-
-            startActivity(intent)
+            helperFunctions.openUrl(R.string.GITHUB_URL)
         }
 
         linkedinFab.setOnClickListener {
-            val linkedinUrl = R.string.LINKEDIN_URL.toString()
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(linkedinUrl))
-
-            startActivity(intent)
+            helperFunctions.openUrl(R.string.LINKEDIN_URL)
         }
 
         instagramFab.setOnClickListener {
-            val instagramUrl = R.string.INSTAGRAM_URL.toString()
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(instagramUrl))
-
-            startActivity(intent)
+            helperFunctions.openUrl(R.string.INSTAGRAM_URL)
         }
 
-        return view
+        apiFab.setOnClickListener {
+            helperFunctions.openUrl(R.string.API_URL)
+        }
 
+
+
+        return view
     }
+
 
 }

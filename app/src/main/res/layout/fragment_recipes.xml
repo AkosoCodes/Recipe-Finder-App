@@ -35,31 +35,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/white" />
 
-    <ImageView
-        android:id="@+id/noSignalImageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:alpha="0.3"
-        android:src="@drawable/no_signal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.392" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="207dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/noSignalText"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/noSignalImageView"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="@+id/noSignalImageView"
-        app:layout_constraintTop_toBottomOf="@+id/noSignalImageView" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
