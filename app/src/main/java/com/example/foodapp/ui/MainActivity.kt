@@ -1,8 +1,12 @@
-package com.example.foodapp
+package com.example.foodapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.example.foodapp.R
+import com.example.foodapp.ui.fragments.Favorites
+import com.example.foodapp.ui.fragments.Information
+import com.example.foodapp.ui.fragments.Recipes
 import com.example.foodapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
