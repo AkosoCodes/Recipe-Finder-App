@@ -3,8 +3,6 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("kotlin-parcelize")
-    id("com.google.dagger.hilt.android")
-
 }
 
 android {
@@ -56,13 +54,6 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    // Data Binding
-    kapt("com.android.databinding:compiler:3.2.0-alpha10")
-    kapt("androidx.databinding:databinding-common:8.1.1")
-
-    // DataStore
-    implementation("androidx.datastore:datastore-preferences:1.1.0-alpha05")
-
     // Gson
     implementation("com.google.code.gson:gson:2.8.9")
 
@@ -70,12 +61,8 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    // Dagger Hilt
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
-    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
-    
+    // Picasso
+    implementation("com.squareup.picasso:picasso:2.71828")
 }
 
 kapt {

@@ -5,11 +5,18 @@
     <!-- Navigation -->
     <string name="recipesFragment">This is the recipes fragment</string>
     <string name="favoritesFragment">This is the favorites fragment</string>
-    <string name="infoFragment">Information fragment!</string>
+    <string name="infoFragment">Information Page:</string>
 
     <!-- Bottom Navigation -->
     <string name="recipesMenu">Recipes</string>
     <string name="favoritesMenu">Favorites</string>
     <string name="informationMenu">Information</string>
+
+    <!-- No Signal -->
     <string name="noSignalText">It appears that you\'re offline.</string>
+
+    <!-- Links -->
+    <string name="GITHUB_URL">"https://github.com/AkosoCodes"</string>
+    <string name="LINKEDIN_URL">"https://www.linkedin.com/in/andrijas21/"</string>
+    <string name="INSTAGRAM_URL">"https://www.instagram.com/andrija_s21/"</string>
 </resources>
