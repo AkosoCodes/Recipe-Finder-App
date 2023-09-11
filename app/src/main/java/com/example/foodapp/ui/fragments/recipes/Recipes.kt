@@ -77,22 +77,6 @@ class Recipes : Fragment() {
             }
         })
 
-        menuSearchViewID.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                // Update the currentQuery variable when the user submits a query
-                currentQuery = query.orEmpty()
-                // Call the API with the updated query
-                fetchRecipeByID(currentQuery)
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                // Update the currentQuery variable as the user types
-                currentQuery = newText.orEmpty()
-                // You can choose to call the API here as the user types or wait for submission
-                return true
-            }
-        })
     }
 
     private fun fetchRecipes(query: String) {
@@ -102,26 +86,8 @@ class Recipes : Fragment() {
                 Log.i("Response", response.body().toString())
                 if (response.isSuccessful) {
                     val foodRecipe: FoodRecipe? = response.body()
-                    val adapter = RecipeAdapter(requireContext(), foodRecipe?.results ?: emptyList())
-                    val recyclerView = requireView().findViewById<RecyclerView>(R.id.recipe_RecyclerView)
-                    recyclerView.adapter = adapter
-                    adapter.notifyDataSetChanged()
-                }
-            }
+                    val adapter = RecipeAdapter(requireContext(), requireFragmentManager(), foodRecipe?.results ?: emptyList())
 
-            override fun onFailure(call: Call<FoodRecipe>, t: Throwable) {
-                Log.d("Response", t.message.toString())
-            }
-        })
-    }
-
-    private fun fetchRecipeByID(query: String){
-        handler.getRecipeById(query.toInt(), mapOf("apiKey" to Constants.API_KEY), object : Callback<FoodRecipe> {
-            override fun onResponse(call: Call<FoodRecipe>, response: Response<FoodRecipe>) {
-                Log.i("Response", response.body().toString())
-                if (response.isSuccessful) {
-                    val foodRecipe: FoodRecipe? = response.body()
-                    val adapter = RecipeAdapter(requireContext(), foodRecipe?.results ?: emptyList())
                     val recyclerView = requireView().findViewById<RecyclerView>(R.id.recipe_RecyclerView)
                     recyclerView.adapter = adapter
                     adapter.notifyDataSetChanged()

@@ -37,4 +37,5 @@
     <string name="apply">APPLY</string>
     <string name="search">Search</string>
     <string name="search_by_id">Search by ID</string>
+    <string name="go_back">Go Back</string>
 </resources>

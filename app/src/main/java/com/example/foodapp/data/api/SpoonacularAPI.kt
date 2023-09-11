@@ -1,6 +1,7 @@
 package com.example.foodapp.data.api
 
 import com.example.foodapp.models.FoodRecipe
+import com.example.foodapp.models.Result
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -22,6 +23,6 @@ interface SpoonacularAPI {
     fun getRecipeById(
         @Path("id") recipeId: Int,
         @QueryMap options: Map<String, String>
-    ): Call<FoodRecipe>
+    ): Call<Result>
 
 }

@@ -3,6 +3,7 @@ package com.example.foodapp.data.api
 import com.example.foodapp.models.FoodRecipe
 import com.example.foodapp.models.Result
 import com.example.foodapp.utils.Constants.Companion.BASE_URL
+import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -21,7 +22,7 @@ class SpoonacularHandler(
         api.getRecipes(queries).enqueue(callback)
     }
 
-    fun getRecipeById(recipeId: Int, options: Map<String, String>, callback: Callback<FoodRecipe>){
+    fun getRecipeById(recipeId: Int, options: Map<String, String>, callback: Callback<Result>){
         api.getRecipeById(recipeId, options).enqueue(callback)
     }
 }
