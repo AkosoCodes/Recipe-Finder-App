@@ -3,8 +3,7 @@ package com.example.foodapp.ui.fragments.favorites.favoritesStorage
 import android.content.Context
 
 class FavoritesManager(context: Context) {
-    private val sharedPreferences =
-        context.getSharedPreferences("favorites", Context.MODE_PRIVATE)
+    private val sharedPreferences = context.getSharedPreferences("favorites", Context.MODE_PRIVATE)
 
     fun getFavoriteRecipeIds(): Set<String> {
         return sharedPreferences.getStringSet("favorite_recipe_ids", HashSet()) ?: HashSet()

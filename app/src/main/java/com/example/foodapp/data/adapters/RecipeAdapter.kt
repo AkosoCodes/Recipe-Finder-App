@@ -17,51 +17,54 @@ import com.squareup.picasso.Picasso
 class RecipeAdapter(
     private val context: Context,
     private val fragmentManager: FragmentManager,
-    private var recipes: List<Recipe> = emptyList(), // Initialize with an empty list
-    private val favorites: Favorites,
-
+    private var recipes: List<Recipe> = emptyList(),
+    private val favorites: Favorites
 ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
-        val fragment = LayoutInflater.from(context).inflate(R.layout.recipe_row_layout, parent, false)
-        return RecipeViewHolder(fragment)
+        val inflater = LayoutInflater.from(context)
+        val itemView = inflater.inflate(R.layout.recipe_row_layout, parent, false)
+        return RecipeViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         val recipe = recipes[position]
 
+        // Handle item click to open RecipeInfo fragment
         holder.itemView.setOnClickListener {
-            val recipeInfoFragment = RecipeInfo.newInstance(recipe) // Pass the whole recipe object
-
+            val recipeInfoFragment = RecipeInfo.newInstance(recipe)
             fragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, recipeInfoFragment) // Replace with your fragment container ID
-                .addToBackStack(null) // Optional: Add to the back stack if you want fragment navigation
+                .replace(R.id.frameLayout, recipeInfoFragment)
+                .addToBackStack(null)
                 .commit()
         }
 
+        // Set recipe title and ID
         holder.titleView?.text = recipe.title
-        holder.idView?.text = "ID: " + recipe.id.toString()
+        holder.idView?.text = "ID: ${recipe.id}"
 
-        // Check if the ImageView is null before setting the image resource
-        if (holder.imageView != null) {
-            Picasso.get().load(recipe.image).into(holder.imageView)
+        // Load recipe image using Picasso
+        holder.imageView?.let {
+            Picasso.get().load(recipe.image).into(it)
         }
 
-        // Handle adding/removing from favorites
+        // Set favorite button based on whether the recipe is a favorite
         val favoriteButton = holder.view.findViewById<ImageView>(R.id.favoriteButton)
-        if (favorites.isFavorite(recipe)) {
-            favoriteButton?.setImageResource(R.drawable.star)
+        val favoriteIconResource = if (favorites.isFavorite(recipe)) {
+            R.drawable.star
         } else {
-            favoriteButton?.setImageResource(R.drawable.instagram)
+            R.drawable.instagram
         }
+        favoriteButton.setImageResource(favoriteIconResource)
 
-        favoriteButton?.setOnClickListener {
+        // Handle favorite button click to add/remove from favorites
+        favoriteButton.setOnClickListener {
             if (favorites.isFavorite(recipe)) {
                 favorites.removeFavorite(recipe)
-                favoriteButton?.setImageResource(R.drawable.star)
+                favoriteButton.setImageResource(R.drawable.star)
             } else {
                 favorites.addFavorite(recipe)
-                favoriteButton?.setImageResource(R.drawable.instagram)
+                favoriteButton.setImageResource(R.drawable.instagram)
             }
         }
     }
@@ -82,4 +85,3 @@ class RecipeAdapter(
         val idView: TextView? = view.findViewById<TextView>(R.id.recipeID)
     ) : RecyclerView.ViewHolder(view)
 }
-

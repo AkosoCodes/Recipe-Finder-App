@@ -14,15 +14,9 @@ interface SpoonacularAPI {
         @QueryMap queries: Map<String, String>
     ): Call<FoodRecipe>
 
-    @GET("/recipes/complexSearch")
-    fun searchRecipes(
-        @QueryMap queries: Map<String, String>
-    ): Call<FoodRecipe>
-
     @GET("/recipes/{id}/information")
     fun getRecipeById(
         @Path("id") recipeId: Int,
         @QueryMap options: Map<String, String>
     ): Call<Recipe>
-
 }

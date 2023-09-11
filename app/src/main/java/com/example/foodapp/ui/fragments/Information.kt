@@ -40,8 +40,6 @@ class Information : Fragment() {
             helperFunctions.openUrl(R.string.API_URL)
         }
 
-
-
         return view
     }
 

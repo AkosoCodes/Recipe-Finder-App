@@ -10,18 +10,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 class SpoonacularHandler(
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
-        .addConverterFactory(
-            GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
         .build(),
 
     private val api: SpoonacularAPI = retrofit.create(SpoonacularAPI::class.java)
 ) {
-
-    fun getRecipes(queries: Map<String, String>, callback: Callback<FoodRecipe>){
+    fun getRecipes(queries: Map<String, String>, callback: Callback<FoodRecipe>) {
         api.getRecipes(queries).enqueue(callback)
     }
 
-    fun getRecipeById(recipeId: Int, options: Map<String, String>, callback: Callback<Recipe>){
+    fun getRecipeById(recipeId: Int, options: Map<String, String>, callback: Callback<Recipe>) {
         api.getRecipeById(recipeId, options).enqueue(callback)
     }
 }

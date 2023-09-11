@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import com.example.foodapp.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-
 class RecipesBottomSheet : BottomSheetDialogFragment() {
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -17,5 +15,4 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.recipes_bottom_sheet, container, false)
     }
-
 }

@@ -55,9 +55,9 @@ class RecipeInfo : Fragment() {
 
             fetchRecipeByID(recipeId)
 
-            val recipeImageView = view?.findViewById<ImageView>(R.id.recipeImageView)
-            val recipeTitleTextView = view?.findViewById<TextView>(R.id.recipeTitleTextView)
-            val recipeDescriptionTextView = view?.findViewById<TextView>(R.id.recipeDescriptionTextView)
+            val recipeImageView = view.findViewById<ImageView>(R.id.recipeImageView)
+            val recipeTitleTextView = view.findViewById<TextView>(R.id.recipeTitleTextView)
+            val recipeDescriptionTextView = view.findViewById<TextView>(R.id.recipeDescriptionTextView)
 
             Picasso.get().load(recipe.image).into(recipeImageView)
             recipeTitleTextView?.text = recipeTitle
@@ -72,19 +72,15 @@ class RecipeInfo : Fragment() {
 
             if (recipe != null) {
                 if (favoritesManager.isFavorite(recipe.id.toString())) {
-                    // Recipe is already a favorite, remove it
                     favoritesManager.removeFavorite(recipe.id.toString())
                 } else {
-                    // Recipe is not a favorite, add it
                     favoritesManager.addFavorite(recipe.id.toString())
                 }
 
-                // Update the UI, e.g., change button text or icon
                 updateFavoritesButtonState()
             }
         }
 
-        // Update the UI based on whether the recipe is a favorite or not
         updateFavoritesButtonState()
 
         return view
@@ -96,17 +92,14 @@ class RecipeInfo : Fragment() {
                 if (response.isSuccessful) {
                     val recipeDetails: Recipe? = response.body()
                     if (recipeDetails != null) {
-                        // Update your UI with the received data (image, title, description)
                         val recipeImageView = view?.findViewById<ImageView>(R.id.recipeImageView)
                         val recipeTitleTextView = view?.findViewById<TextView>(R.id.recipeTitleTextView)
                         val recipeDescriptionTextView = view?.findViewById<TextView>(R.id.recipeDescriptionTextView)
 
-                        // Set image, title, and description based on the API response
                         Picasso.get().load(recipeDetails.image).into(recipeImageView)
                         recipeTitleTextView?.text = recipeDetails.title
                         recipeDescriptionTextView?.text = recipeDetails.summary
                     } else {
-                        // Handle the case where the response body is null
                         Log.d("Response", "Recipe details not found")
                     }
                 }

@@ -14,7 +14,7 @@ import com.example.foodapp.data.adapters.RecipeAdapter
 import com.example.foodapp.data.api.SpoonacularHandler
 import com.example.foodapp.models.FoodRecipe
 import com.example.foodapp.ui.fragments.recipes.bottomSheet.RecipesBottomSheet
-import com.example.foodapp.ui.fragments.favorites.Favorites // Import FavoritesFragment
+import com.example.foodapp.ui.fragments.favorites.Favorites
 import com.example.foodapp.utils.Constants
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
@@ -23,16 +23,16 @@ import retrofit2.Response
 
 class Recipes : Fragment() {
 
-    private var currentQuery: String = "" // Updated to be a mutable property
+    private var currentQuery: String = ""
     private val handler: SpoonacularHandler = SpoonacularHandler()
-    private lateinit var favoritesFragment: Favorites // Declare favoritesFragment
+    private lateinit var favoritesFragment: Favorites
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_recipes, container, false)
-        favoritesFragment = Favorites() // Initialize the favoritesFragment
+        favoritesFragment = Favorites()
         val recyclerView = view.findViewById<RecyclerView>(R.id.recipe_RecyclerView)
 
         setHasOptionsMenu(true)
@@ -60,15 +60,12 @@ class Recipes : Fragment() {
 
         menuSearchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // Update the currentQuery variable when the user submits a query
                 currentQuery = query.orEmpty()
-                // Call the API with the updated query
                 fetchRecipes(currentQuery)
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // Update the currentQuery variable as the user types
                 currentQuery = newText.orEmpty()
                 // You can choose to call the API here as the user types or wait for submission
                 return true
@@ -77,7 +74,6 @@ class Recipes : Fragment() {
     }
 
     private fun fetchRecipes(query: String) {
-        // Use the currentQuery variable in the API request
         handler.getRecipes(mapOf("query" to query, "apiKey" to Constants.API_KEY), object : Callback<FoodRecipe> {
             override fun onResponse(call: Call<FoodRecipe>, response: Response<FoodRecipe>) {
                 Log.i("Response", response.body().toString())
@@ -98,6 +94,6 @@ class Recipes : Fragment() {
     }
 
     fun onFavoritesChanged() {
-        TODO("Not yet implemented")
+        // Handle favorites change here
     }
 }
