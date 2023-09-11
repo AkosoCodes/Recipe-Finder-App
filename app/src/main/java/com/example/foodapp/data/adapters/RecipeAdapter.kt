@@ -1,6 +1,7 @@
 package com.example.foodapp.data.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodapp.R
+import com.example.foodapp.data.api.SpoonacularHandler
 import com.example.foodapp.models.Result
 import com.squareup.picasso.Picasso
 
@@ -23,8 +25,13 @@ class RecipeAdapter(
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         val recipe = recipes[position]
+
+
         holder.titleView!!.text = recipe.title
         holder.descriptionView!!.text = recipe.summary
+        holder.time!!.text = recipe.readyInMinutes.toString()
+        holder.likeCount!!.text = recipe.aggregateLikes.toString()
+        holder.isVegan!!.text = recipe.vegan.toString()
         Picasso.get().load(recipe.image).into(holder.imageView)
     }
 
@@ -36,7 +43,10 @@ class RecipeAdapter(
         private val view : View,
         val titleView: TextView? = view.findViewById<TextView>(R.id.recipe_Title),
         val descriptionView: TextView? = view.findViewById<TextView>(R.id.recipe_Description),
-        val imageView: ImageView? = view.findViewById<ImageView>(R.id.recipe_ImageView)
+        val imageView: ImageView? = view.findViewById<ImageView>(R.id.recipe_ImageView),
+        val time: TextView? = view.findViewById<TextView>(R.id.time_textView),
+        val likeCount: TextView? = view.findViewById<TextView>(R.id.heart_textView),
+        val isVegan: TextView? = view.findViewById<TextView>(R.id.vegan_textView),
     ): RecyclerView.ViewHolder(view){
 
 

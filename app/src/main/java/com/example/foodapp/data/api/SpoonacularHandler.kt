@@ -21,4 +21,7 @@ class SpoonacularHandler(
         api.getRecipes(queries).enqueue(callback)
     }
 
+    fun getRecipeById(recipeId: Int, options: Map<String, String>, callback: Callback<FoodRecipe>){
+        api.getRecipeById(recipeId, options).enqueue(callback)
+    }
 }

@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import com.example.foodapp.R
 import com.example.foodapp.ui.fragments.Favorites
 import com.example.foodapp.ui.fragments.Information
-import com.example.foodapp.ui.fragments.Recipes
+import com.example.foodapp.ui.fragments.recipes.Recipes
 import com.example.foodapp.databinding.ActivityMainBinding
 import com.example.foodapp.utils.HelperFunctions
 
