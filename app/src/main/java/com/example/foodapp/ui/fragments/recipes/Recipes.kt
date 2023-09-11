@@ -14,6 +14,7 @@ import com.example.foodapp.data.adapters.RecipeAdapter
 import com.example.foodapp.data.api.SpoonacularHandler
 import com.example.foodapp.models.FoodRecipe
 import com.example.foodapp.ui.fragments.recipes.bottomSheet.RecipesBottomSheet
+import com.example.foodapp.ui.fragments.favorites.Favorites // Import FavoritesFragment
 import com.example.foodapp.utils.Constants
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
@@ -24,14 +25,14 @@ class Recipes : Fragment() {
 
     private var currentQuery: String = "" // Updated to be a mutable property
     private val handler: SpoonacularHandler = SpoonacularHandler()
+    private lateinit var favoritesFragment: Favorites // Declare favoritesFragment
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val view = inflater.inflate(R.layout.fragment_recipes, container, false)
-
+        favoritesFragment = Favorites() // Initialize the favoritesFragment
         val recyclerView = view.findViewById<RecyclerView>(R.id.recipe_RecyclerView)
 
         setHasOptionsMenu(true)
@@ -52,13 +53,10 @@ class Recipes : Fragment() {
         inflater.inflate(R.menu.recipes_menu, menu)
 
         val menuSearch = menu.findItem(R.id.menuSearch)
-        val menuSearchID = menu.findItem(R.id.menuSearchID)
 
         val menuSearchView = menuSearch.actionView as androidx.appcompat.widget.SearchView
-        val menuSearchViewID = menuSearchID.actionView as androidx.appcompat.widget.SearchView
 
         menuSearchView.isSubmitButtonEnabled = true
-        menuSearchViewID.isSubmitButtonEnabled = true
 
         menuSearchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -76,7 +74,6 @@ class Recipes : Fragment() {
                 return true
             }
         })
-
     }
 
     private fun fetchRecipes(query: String) {
@@ -86,7 +83,7 @@ class Recipes : Fragment() {
                 Log.i("Response", response.body().toString())
                 if (response.isSuccessful) {
                     val foodRecipe: FoodRecipe? = response.body()
-                    val adapter = RecipeAdapter(requireContext(), requireFragmentManager(), foodRecipe?.results ?: emptyList())
+                    val adapter = RecipeAdapter(requireContext(), requireFragmentManager(), foodRecipe?.results ?: emptyList(), favoritesFragment)
 
                     val recyclerView = requireView().findViewById<RecyclerView>(R.id.recipe_RecyclerView)
                     recyclerView.adapter = adapter
@@ -98,5 +95,9 @@ class Recipes : Fragment() {
                 Log.d("Response", t.message.toString())
             }
         })
+    }
+
+    fun onFavoritesChanged() {
+        TODO("Not yet implemented")
     }
 }

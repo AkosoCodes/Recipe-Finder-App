@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.foodapp.R
-import com.example.foodapp.ui.fragments.Favorites
+import com.example.foodapp.ui.fragments.favorites.Favorites
 import com.example.foodapp.ui.fragments.Information
 import com.example.foodapp.ui.fragments.recipes.Recipes
 import com.example.foodapp.databinding.ActivityMainBinding

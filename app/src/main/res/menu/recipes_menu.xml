@@ -10,12 +10,4 @@
         android:id="@+id/menuSearch"
         app:showAsAction="ifRoom"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
-    <item
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:title="@string/search_by_id"
-        android:icon="@drawable/restaurant"
-        android:id="@+id/menuSearchID"
-        app:showAsAction="ifRoom"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />
 </menu>

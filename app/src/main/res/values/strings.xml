@@ -38,4 +38,6 @@
     <string name="search">Search</string>
     <string name="search_by_id">Search by ID</string>
     <string name="go_back">Go Back</string>
+    <string name="remove_from_favorites">Remove from Favorites</string>
+    <string name="add_to_favorites">Add to Favorites</string>
 </resources>

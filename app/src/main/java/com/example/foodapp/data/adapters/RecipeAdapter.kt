@@ -9,14 +9,17 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodapp.R
-import com.example.foodapp.models.Result
+import com.example.foodapp.models.Recipe
+import com.example.foodapp.ui.fragments.favorites.Favorites
 import com.example.foodapp.ui.fragments.recipes.recipeInfo.RecipeInfo
 import com.squareup.picasso.Picasso
 
 class RecipeAdapter(
     private val context: Context,
-    private val fragmentManager: FragmentManager, // Pass the FragmentManager
-    private val recipes: List<Result>
+    private val fragmentManager: FragmentManager,
+    private var recipes: List<Recipe> = emptyList(), // Initialize with an empty list
+    private val favorites: Favorites,
+
 ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
@@ -32,15 +35,41 @@ class RecipeAdapter(
 
             fragmentManager.beginTransaction()
                 .replace(R.id.frameLayout, recipeInfoFragment) // Replace with your fragment container ID
-                .addToBackStack(null) // Optional: Add to back stack if you want fragment navigation
+                .addToBackStack(null) // Optional: Add to the back stack if you want fragment navigation
                 .commit()
         }
 
-        holder.titleView!!.text = recipe.title
-        holder.idView!!.text = "ID: " + recipe.id.toString()
-        Picasso.get().load(recipe.image).into(holder.imageView)
+        holder.titleView?.text = recipe.title
+        holder.idView?.text = "ID: " + recipe.id.toString()
+
+        // Check if the ImageView is null before setting the image resource
+        if (holder.imageView != null) {
+            Picasso.get().load(recipe.image).into(holder.imageView)
+        }
+
+        // Handle adding/removing from favorites
+        val favoriteButton = holder.view.findViewById<ImageView>(R.id.favoriteButton)
+        if (favorites.isFavorite(recipe)) {
+            favoriteButton?.setImageResource(R.drawable.star)
+        } else {
+            favoriteButton?.setImageResource(R.drawable.instagram)
+        }
+
+        favoriteButton?.setOnClickListener {
+            if (favorites.isFavorite(recipe)) {
+                favorites.removeFavorite(recipe)
+                favoriteButton?.setImageResource(R.drawable.star)
+            } else {
+                favorites.addFavorite(recipe)
+                favoriteButton?.setImageResource(R.drawable.instagram)
+            }
+        }
     }
 
+    fun setRecipes(recipes: List<Recipe>) {
+        this.recipes = recipes
+        notifyDataSetChanged()
+    }
 
     override fun getItemCount(): Int {
         return recipes.size
@@ -51,6 +80,6 @@ class RecipeAdapter(
         val imageView: ImageView? = view.findViewById<ImageView>(R.id.recipe_ImageView),
         val titleView: TextView? = view.findViewById<TextView>(R.id.recipe_Title),
         val idView: TextView? = view.findViewById<TextView>(R.id.recipeID)
-    ) : RecyclerView.ViewHolder(view) {
-    }
+    ) : RecyclerView.ViewHolder(view)
 }
+
