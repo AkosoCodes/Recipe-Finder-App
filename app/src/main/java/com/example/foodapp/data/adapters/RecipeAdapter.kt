@@ -28,10 +28,11 @@ class RecipeAdapter(
 
 
         holder.titleView!!.text = recipe.title
-        holder.descriptionView!!.text = recipe.summary
-        holder.time!!.text = recipe.readyInMinutes.toString()
-        holder.likeCount!!.text = recipe.aggregateLikes.toString()
-        holder.isVegan!!.text = recipe.vegan.toString()
+        holder.idView!!.text = "ID: " + recipe.id.toString()
+//        holder.descriptionView!!.text = recipe.summary
+//        holder.time!!.text = recipe.readyInMinutes.toString()
+//        holder.likeCount!!.text = recipe.aggregateLikes.toString()
+//        holder.isVegan!!.text = recipe.vegan.toString()
         Picasso.get().load(recipe.image).into(holder.imageView)
     }
 
@@ -41,12 +42,13 @@ class RecipeAdapter(
 
     class RecipeViewHolder(
         private val view : View,
-        val titleView: TextView? = view.findViewById<TextView>(R.id.recipe_Title),
-        val descriptionView: TextView? = view.findViewById<TextView>(R.id.recipe_Description),
         val imageView: ImageView? = view.findViewById<ImageView>(R.id.recipe_ImageView),
-        val time: TextView? = view.findViewById<TextView>(R.id.time_textView),
-        val likeCount: TextView? = view.findViewById<TextView>(R.id.heart_textView),
-        val isVegan: TextView? = view.findViewById<TextView>(R.id.vegan_textView),
+        val titleView: TextView? = view.findViewById<TextView>(R.id.recipe_Title),
+        val idView: TextView? = view.findViewById<TextView>(R.id.recipeID)
+//        val descriptionView: TextView? = view.findViewById<TextView>(R.id.recipe_Description),
+//        val time: TextView? = view.findViewById<TextView>(R.id.time_textView),
+//        val likeCount: TextView? = view.findViewById<TextView>(R.id.heart_textView),
+//        val isVegan: TextView? = view.findViewById<TextView>(R.id.vegan_textView),
     ): RecyclerView.ViewHolder(view){
 
 
