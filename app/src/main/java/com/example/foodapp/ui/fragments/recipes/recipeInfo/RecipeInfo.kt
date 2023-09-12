@@ -1,6 +1,9 @@
 package com.example.foodapp.ui.fragments.recipes.recipeInfo
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
+import android.provider.CalendarContract.Colors
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,18 +16,18 @@ import android.widget.TextView
 import androidx.core.view.isInvisible
 import com.example.foodapp.R
 import com.example.foodapp.data.api.SpoonacularHandler
+import com.example.foodapp.data.database.DatabaseHelper
 import com.example.foodapp.models.Recipe
 import com.example.foodapp.utils.Constants
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.example.foodapp.ui.fragments.favorites.favoritesStorage.FavoritesManager
 
 class RecipeInfo : Fragment() {
 
     private val handler: SpoonacularHandler = SpoonacularHandler()
-    private lateinit var favoritesManager: FavoritesManager
+    private var favoritesDatabaseHelper: DatabaseHelper ?= null
 
     companion object {
         fun newInstance(recipe: Recipe): RecipeInfo {
@@ -48,53 +51,23 @@ class RecipeInfo : Fragment() {
         }
 
         val recipe = arguments?.getParcelable<Recipe>("recipe")
-
+        
+        favoritesDatabaseHelper = DatabaseHelper(requireContext())
+        
         if (recipe != null) {
             val recipeId = recipe.id
             val recipeTitle = recipe.title
 
             fetchRecipeByID(recipeId)
-
-            val recipeImageView = view.findViewById<ImageView>(R.id.recipeImageView)
-            val recipeTitleTextView = view.findViewById<TextView>(R.id.recipeTitleTextView)
-            val recipeDescriptionTextView = view.findViewById<TextView>(R.id.recipeDescriptionTextView)
-
-            Picasso.get().load(recipe.image).into(recipeImageView)
-            recipeTitleTextView?.text = recipeTitle
-            recipeDescriptionTextView?.text = recipe.summary
-        }
-
-        val addToFavoritesButton = view.findViewById<ImageButton>(R.id.favoriteButton)
-        favoritesManager = FavoritesManager(requireContext())
-
-        addToFavoritesButton.setOnClickListener {
-
-            //cache the recipe
-            val sharedPreferences = requireActivity().getSharedPreferences("recipes", 0)
-            val editor = sharedPreferences.edit()
-            editor.putString("recipe", recipe?.id.toString())
-            editor.apply()
-
-            val recipe = arguments?.getParcelable<Recipe>("recipe")
-
-            if (recipe != null) {
-                if (favoritesManager.isFavorite(recipe.id.toString())) {
-                    favoritesManager.removeFavorite(recipe.id.toString())
-                } else {
-                    favoritesManager.addFavorite(recipe.id.toString())
-                }
-
-                updateFavoritesButtonState()
-            }
         }
 
         updateFavoritesButtonState()
-
         return view
     }
 
     private fun fetchRecipeByID(query: Int) {
         handler.getRecipeById(query.toInt(), mapOf("apiKey" to Constants.API_KEY), object : Callback<Recipe> {
+            @SuppressLint("ResourceAsColor")
             override fun onResponse(call: Call<Recipe>, response: Response<Recipe>) {
                 if (response.isSuccessful) {
                     val recipeDetails: Recipe? = response.body()
@@ -106,6 +79,22 @@ class RecipeInfo : Fragment() {
                         Picasso.get().load(recipeDetails.image).into(recipeImageView)
                         recipeTitleTextView?.text = recipeDetails.title
                         recipeDescriptionTextView?.text = recipeDetails.summary
+
+                        val addToFavoritesButton = view?.findViewById<ImageButton>(R.id.favoriteButton)
+
+                        addToFavoritesButton?.setOnClickListener(){
+                            if(favoritesDatabaseHelper?.checkIsFavorite(recipeDetails.id) == false){
+                                favoritesDatabaseHelper?.addFavorite(recipeDetails.id, recipeDetails.title, recipeDetails.summary, recipeDetails.image)
+                                addToFavoritesButton.setBackgroundColor(R.color.MEDIUM_GRAY)
+                                addToFavoritesButton.isEnabled = false
+
+                            }else {
+                                favoritesDatabaseHelper?.removeFavorite(recipeDetails.id)
+                                addToFavoritesButton.setBackgroundColor(R.color.YELLOW)
+                                addToFavoritesButton.isEnabled = true
+                            }
+
+                        }
                     } else {
                         Log.d("Response", "Recipe details not found")
                     }
@@ -115,6 +104,7 @@ class RecipeInfo : Fragment() {
             override fun onFailure(call: Call<Recipe>, t: Throwable) {
                 Log.d("Response", t.message.toString())
             }
+
         })
     }
 
@@ -123,7 +113,12 @@ class RecipeInfo : Fragment() {
         val recipe = arguments?.getParcelable<Recipe>("recipe")
 
         if (recipe != null) {
-            addToFavoritesButton?.isInvisible = favoritesManager.isFavorite(recipe.id.toString())
+            val check = favoritesDatabaseHelper?.checkIsFavorite(recipe.id)
+            if(check != null && check){
+                addToFavoritesButton?.visibility = View.VISIBLE
+            }else {
+                addToFavoritesButton?.visibility = View.INVISIBLE
+            }
         }
     }
 }

@@ -2,19 +2,19 @@ package com.example.foodapp.ui.fragments.recipes
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodapp.R
 import com.example.foodapp.data.adapters.RecipeAdapter
 import com.example.foodapp.data.api.SpoonacularHandler
 import com.example.foodapp.models.FoodRecipe
-import com.example.foodapp.ui.fragments.recipes.bottomSheet.RecipesBottomSheet
 import com.example.foodapp.ui.fragments.favorites.Favorites
+import com.example.foodapp.ui.fragments.recipes.bottomSheet.RecipesBottomSheet
 import com.example.foodapp.utils.Constants
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
@@ -42,9 +42,8 @@ class Recipes : Fragment() {
         currentQuery = sharedPreferences.getString("query", "").orEmpty()
         fetchRecipes(currentQuery)
 
-
-
-        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(container!!.context)
+        recyclerView.layoutManager =
+            androidx.recyclerview.widget.LinearLayoutManager(container!!.context)
 
         val openBottomSheetButton = view.findViewById<FloatingActionButton>(R.id.openBottomSheet)
 
@@ -65,7 +64,8 @@ class Recipes : Fragment() {
 
         menuSearchView.isSubmitButtonEnabled = true
 
-        menuSearchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+        menuSearchView.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 currentQuery = query.orEmpty()
                 fetchRecipes(currentQuery)
@@ -74,40 +74,44 @@ class Recipes : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 currentQuery = newText.orEmpty()
-                // You can choose to call the API here as the user types or wait for submission
                 return true
             }
         })
     }
 
     private fun fetchRecipes(query: String) {
-        handler.getRecipes(mapOf("query" to query, "apiKey" to Constants.API_KEY), object : Callback<FoodRecipe> {
-            override fun onResponse(call: Call<FoodRecipe>, response: Response<FoodRecipe>) {
-                Log.i("Response", response.body().toString())
-                if (response.isSuccessful) {
-                    val foodRecipe: FoodRecipe? = response.body()
-                    val adapter = RecipeAdapter(requireContext(), requireFragmentManager(), foodRecipe?.results ?: emptyList(), favoritesFragment)
+        handler.getRecipes(
+            mapOf("query" to query, "apiKey" to Constants.API_KEY),
+            object : Callback<FoodRecipe> {
+                override fun onResponse(call: Call<FoodRecipe>, response: Response<FoodRecipe>) {
+                    Log.i("Response", response.body().toString())
+                    if (response.isSuccessful) {
+                        val foodRecipe: FoodRecipe? = response.body()
+                        val adapter = RecipeAdapter(
+                            requireContext(),
+                            requireFragmentManager(),
+                            foodRecipe?.results ?: emptyList(),
+                            favoritesFragment
+                        )
 
-                    val recyclerView = requireView().findViewById<RecyclerView>(R.id.recipe_RecyclerView)
-                    recyclerView.adapter = adapter
-                    adapter.notifyDataSetChanged()
+                        val recyclerView =
+                            requireView().findViewById<RecyclerView>(R.id.recipe_RecyclerView)
+                        recyclerView.adapter = adapter
+                        adapter.notifyDataSetChanged()
 
-                    // Cache the query
-                    val sharedPreferences = requireActivity().getSharedPreferences("recipes", 0)
-                    val editor = sharedPreferences.edit()
-                    editor.putString("query", query)
-                    editor.apply()
+                        // Cache the query
+                        val sharedPreferences = requireActivity().getSharedPreferences("recipes", 0)
+                        val editor = sharedPreferences.edit()
+                        editor.putString("query", query)
+                        editor.apply()
 
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<FoodRecipe>, t: Throwable) {
-                Log.d("Response", t.message.toString())
-            }
-        })
+                override fun onFailure(call: Call<FoodRecipe>, t: Throwable) {
+                    Log.d("Response", t.message.toString())
+                }
+            })
     }
 
-    fun onFavoritesChanged() {
-        // Handle favorites change here
-    }
 }

@@ -17,13 +17,14 @@ import com.squareup.picasso.Picasso
 class RecipeAdapter(
     private val context: Context,
     private val fragmentManager: FragmentManager,
-    private var recipes: List<Recipe> = emptyList(), // Initialize with an empty list
+    private var recipes: List<Recipe> = emptyList(),
     private val favorites: Favorites,
 
-) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
+    ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
-        val fragment = LayoutInflater.from(context).inflate(R.layout.recipe_row_layout, parent, false)
+        val fragment =
+            LayoutInflater.from(context).inflate(R.layout.recipe_row_layout, parent, false)
         return RecipeViewHolder(fragment)
     }
 
@@ -31,38 +32,23 @@ class RecipeAdapter(
         val recipe = recipes[position]
 
         holder.itemView.setOnClickListener {
-            val recipeInfoFragment = RecipeInfo.newInstance(recipe) // Pass the whole recipe object
+            val recipeInfoFragment = RecipeInfo.newInstance(recipe)
 
             fragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, recipeInfoFragment) // Replace with your fragment container ID
-                .addToBackStack(null) // Optional: Add to the back stack if you want fragment navigation
+                .replace(
+                    R.id.frameLayout,
+                    recipeInfoFragment
+                )
+                .addToBackStack(null)
                 .commit()
         }
 
         holder.titleView?.text = recipe.title
 
-        // Check if the ImageView is null before setting the image resource
         if (holder.imageView != null) {
             Picasso.get().load(recipe.image).into(holder.imageView)
         }
 
-        // Handle adding/removing from favorites
-        val favoriteButton = holder.view.findViewById<ImageView>(R.id.favoriteButton)
-        if (favorites.isFavorite(recipe)) {
-            favoriteButton?.setImageResource(R.drawable.star)
-        } else {
-            favoriteButton?.setImageResource(R.drawable.instagram)
-        }
-
-        favoriteButton?.setOnClickListener {
-            if (favorites.isFavorite(recipe)) {
-                favorites.removeFavorite(recipe)
-                favoriteButton?.setImageResource(R.drawable.star)
-            } else {
-                favorites.addFavorite(recipe)
-                favoriteButton?.setImageResource(R.drawable.instagram)
-            }
-        }
     }
 
     fun setRecipes(recipes: List<Recipe>) {
