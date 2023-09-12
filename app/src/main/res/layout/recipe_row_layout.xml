@@ -49,6 +49,7 @@
                     android:ellipsize="end"
                     android:fontFamily="serif"
                     android:maxLines="4"
+                    android:textColor="@color/black"
                     android:text="This Is a sample test"
                     android:textAlignment="viewStart"
                     android:textAllCaps="true"

@@ -34,11 +34,13 @@ class Favorites : Fragment() {
         favoritesRecyclerView = view.findViewById(R.id.favoritesRecyclerView)
         sharedPreferences = requireActivity().getSharedPreferences("favorites", Context.MODE_PRIVATE)
 
-        loadFavoriteRecipes()
-
+        // Initialize the adapter before loading favorite recipes
         adapter = RecipeAdapter(requireContext(), requireActivity().supportFragmentManager, favoriteRecipes, this@Favorites)
+
         favoritesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         favoritesRecyclerView.adapter = adapter
+
+        loadFavoriteRecipes()
 
         return view
     }
@@ -53,7 +55,6 @@ class Favorites : Fragment() {
         }
         adapter.setRecipes(favoriteRecipes)
         adapter.notifyDataSetChanged()
-
     }
 
     fun isFavorite(recipe: Recipe): Boolean {
