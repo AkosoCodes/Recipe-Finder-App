@@ -17,14 +17,13 @@ class HelperFunctions(private val context: Context) {
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetworkInfo = connectivityManager.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
-    } // Checks for internet connectivity
-
+    }
 
     fun openUrl(urlResource: Int) {
         val url = context.getString(urlResource)
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         context.startActivity(intent)
-    } // Opens the url in the browser
+    }
 
     fun updateVisibilityBasedOnInternetConnection(view: View) {
         val frameLayoutView: FrameLayout? = view.findViewById(R.id.frameLayout)
@@ -40,5 +39,5 @@ class HelperFunctions(private val context: Context) {
             imageView?.visibility = View.GONE
             textView?.visibility = View.GONE
         }
-    } // Updates the visibility of the views based on internet connectivity
+    }
 }

@@ -20,7 +20,7 @@ class Favorites : Fragment() {
 
     private lateinit var favoritesRecyclerView: RecyclerView
     private lateinit var adapter: RecipeAdapter
-    private val favoriteRecipes: MutableList<Recipe> = mutableListOf() // Store favorite recipes
+    private val favoriteRecipes: MutableList<Recipe> = mutableListOf()
     private lateinit var sharedPreferences: SharedPreferences
     private val gson = Gson()
     private lateinit var recipesFragment: Recipes
@@ -32,14 +32,13 @@ class Favorites : Fragment() {
         val view = inflater.inflate(R.layout.fragment_favorites, container, false)
 
         favoritesRecyclerView = view.findViewById(R.id.favoritesRecyclerView)
-        adapter = RecipeAdapter(requireContext(), requireActivity().supportFragmentManager, favoriteRecipes, this@Favorites)
-
-        favoritesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        favoritesRecyclerView.adapter = adapter
-
         sharedPreferences = requireActivity().getSharedPreferences("favorites", Context.MODE_PRIVATE)
 
         loadFavoriteRecipes()
+
+        adapter = RecipeAdapter(requireContext(), requireActivity().supportFragmentManager, favoriteRecipes, this@Favorites)
+        favoritesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        favoritesRecyclerView.adapter = adapter
 
         return view
     }
