@@ -68,6 +68,13 @@ class RecipeInfo : Fragment() {
         favoritesManager = FavoritesManager(requireContext())
 
         addToFavoritesButton.setOnClickListener {
+
+            //cache the recipe
+            val sharedPreferences = requireActivity().getSharedPreferences("recipes", 0)
+            val editor = sharedPreferences.edit()
+            editor.putString("recipe", recipe?.id.toString())
+            editor.apply()
+
             val recipe = arguments?.getParcelable<Recipe>("recipe")
 
             if (recipe != null) {

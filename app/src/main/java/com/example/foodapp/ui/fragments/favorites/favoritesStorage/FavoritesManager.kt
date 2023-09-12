@@ -7,7 +7,7 @@ class FavoritesManager(context: Context) {
         context.getSharedPreferences("favorites", Context.MODE_PRIVATE)
 
     fun getFavoriteRecipeIds(): Set<String> {
-        return sharedPreferences.getStringSet("favorite_recipe_ids", HashSet()) ?: HashSet()
+        return sharedPreferences.getStringSet("favorite_recipe_ids", emptySet())!!
     }
 
     fun addFavorite(recipeId: String) {

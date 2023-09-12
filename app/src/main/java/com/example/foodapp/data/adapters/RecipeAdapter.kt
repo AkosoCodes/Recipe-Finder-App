@@ -40,7 +40,6 @@ class RecipeAdapter(
         }
 
         holder.titleView?.text = recipe.title
-        holder.idView?.text = "ID: " + recipe.id.toString()
 
         // Check if the ImageView is null before setting the image resource
         if (holder.imageView != null) {
@@ -79,7 +78,6 @@ class RecipeAdapter(
         val view: View,
         val imageView: ImageView? = view.findViewById<ImageView>(R.id.recipe_ImageView),
         val titleView: TextView? = view.findViewById<TextView>(R.id.recipe_Title),
-        val idView: TextView? = view.findViewById<TextView>(R.id.recipeID)
     ) : RecyclerView.ViewHolder(view)
 }
 

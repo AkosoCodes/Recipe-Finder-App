@@ -63,6 +63,12 @@ dependencies {
 
     // Picasso
     implementation("com.squareup.picasso:picasso:2.71828")
+
+    // Room
+    implementation("androidx.room:room-runtime:2.5.2")
+    kapt("androidx.room:room-compiler:2.5.2")
+    implementation("androidx.room:room-ktx:2.5.2")
+
 }
 
 kapt {

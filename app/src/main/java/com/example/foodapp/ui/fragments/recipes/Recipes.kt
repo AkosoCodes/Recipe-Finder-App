@@ -37,6 +37,13 @@ class Recipes : Fragment() {
 
         setHasOptionsMenu(true)
 
+        // Load the cached query
+        val sharedPreferences = requireActivity().getSharedPreferences("recipes", 0)
+        currentQuery = sharedPreferences.getString("query", "").orEmpty()
+        fetchRecipes(currentQuery)
+
+
+
         recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(container!!.context)
 
         val openBottomSheetButton = view.findViewById<FloatingActionButton>(R.id.openBottomSheet)
@@ -88,6 +95,13 @@ class Recipes : Fragment() {
                     val recyclerView = requireView().findViewById<RecyclerView>(R.id.recipe_RecyclerView)
                     recyclerView.adapter = adapter
                     adapter.notifyDataSetChanged()
+
+                    // Cache the query
+                    val sharedPreferences = requireActivity().getSharedPreferences("recipes", 0)
+                    val editor = sharedPreferences.edit()
+                    editor.putString("query", query)
+                    editor.apply()
+
                 }
             }
 

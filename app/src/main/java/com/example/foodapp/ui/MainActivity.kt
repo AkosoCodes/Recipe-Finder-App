@@ -15,18 +15,21 @@ import com.example.foodapp.utils.HelperFunctions
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val helperFunctions = HelperFunctions(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        val helperFunctions = HelperFunctions(this)
-
-        binding= ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Check internet connectivity and update visibility when the app loads
+        helperFunctions.updateVisibilityBasedOnInternetConnection(binding.root)
+
+        // Replace the initial fragment
         replaceFragment(Recipes())
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.recipesFragment -> {
                     helperFunctions.updateVisibilityBasedOnInternetConnection(binding.root)
                     replaceFragment(Recipes())
@@ -39,24 +42,17 @@ class MainActivity : AppCompatActivity() {
                     helperFunctions.updateVisibilityBasedOnInternetConnection(binding.root)
                     replaceFragment(Information())
                 }
-
                 else -> false
             }
             true
         }
-
-
-
     }
 
-    private fun replaceFragment(fragment: Fragment){
+    private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
-
         val transaction = fragmentManager.beginTransaction()
-
         transaction.replace(R.id.frameLayout, fragment)
         transaction.commit()
     }
-
-
 }
+

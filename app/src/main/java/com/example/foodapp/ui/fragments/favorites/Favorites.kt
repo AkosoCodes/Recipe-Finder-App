@@ -45,14 +45,16 @@ class Favorites : Fragment() {
     }
 
     private fun loadFavoriteRecipes() {
-        val savedRecipesJson = sharedPreferences.getString("favorite_recipes", null)
-        if (!savedRecipesJson.isNullOrBlank()) {
-            val savedRecipesType = object : TypeToken<List<Recipe>>() {}.type
-            val savedRecipes = gson.fromJson<List<Recipe>>(savedRecipesJson, savedRecipesType)
-            favoriteRecipes.clear()
-            favoriteRecipes.addAll(savedRecipes)
-            adapter.notifyDataSetChanged()
+        // Load the cached favorite recipes
+        val recipesJson = sharedPreferences.getString("favorite_recipes", "")
+        val type = object : TypeToken<List<Recipe>>() {}.type
+        val recipes = gson.fromJson<List<Recipe>>(recipesJson, type)
+        if (recipes != null) {
+            favoriteRecipes.addAll(recipes)
         }
+        adapter.setRecipes(favoriteRecipes)
+        adapter.notifyDataSetChanged()
+
     }
 
     fun isFavorite(recipe: Recipe): Boolean {
